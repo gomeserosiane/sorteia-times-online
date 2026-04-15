@@ -367,6 +367,10 @@ body {
     margin-top: 4rem;
   }
 
+  .banner-img {
+    height: 180px;
+  }
+
   .player-mini-ball {
     min-width: 68px;
     min-height: 68px;
