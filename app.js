@@ -1,109 +1,94 @@
-const ADMIN_LOGIN = 'admin';
-const ADMIN_PASSWORD = '2026';
+const VALID_USER = 'admin';
+const VALID_PASS = '2026';
 
 const screens = {
   login: document.getElementById('loginScreen'),
   form: document.getElementById('formScreen'),
-  loading: document.getElementById('loadingScreen'),
-  result: document.getElementById('resultScreen'),
+  result: document.getElementById('resultScreen')
 };
 
 const loginForm = document.getElementById('loginForm');
-const drawForm = document.getElementById('drawForm');
+const sortForm = document.getElementById('sortForm');
 const loginError = document.getElementById('loginError');
-const drawError = document.getElementById('drawError');
-const teamCountEl = document.getElementById('teamCount');
-const playersPerTeamEl = document.getElementById('playersPerTeam');
-const playerListEl = document.getElementById('playerList');
-const loadingBall = document.getElementById('loadingBall');
-const teamsGrid = document.getElementById('teamsGrid');
-const resetBtn = document.getElementById('resetBtn');
+const sortError = document.getElementById('sortError');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const teamsContainer = document.getElementById('teamsContainer');
+const resultCapture = document.getElementById('resultCapture');
+const newDrawBtn = document.getElementById('newDrawBtn');
 const downloadImageBtn = document.getElementById('downloadImageBtn');
 const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-const captureArea = document.getElementById('captureArea');
 
-let latestDraw = null;
+const teamColors = [
+  { bg: '#d1f7d6', card: '#7edc8a' },
+  { bg: '#fff3cd', card: '#ffe08a' },
+  { bg: '#f8d7da', card: '#f28b94' },
+  { bg: '#d1ecf1', card: '#7fd3e0' },
+  { bg: '#f8d1ec', card: '#f28bd6' }
+];
+
+let lastDraw = [];
 
 function showScreen(targetKey) {
-  Object.entries(screens).forEach(([key, section]) => {
+  Object.entries(screens).forEach(([key, el]) => {
     if (key === targetKey) {
-      section.classList.remove('d-none', 'leaving');
-      requestAnimationFrame(() => section.classList.add('active'));
+      el.classList.remove('d-none');
+      requestAnimationFrame(() => el.classList.add('active'));
     } else {
-      section.classList.remove('active');
-      section.classList.add('leaving');
-      setTimeout(() => section.classList.add('d-none'), 250);
+      el.classList.remove('active');
+      setTimeout(() => {
+        if (!el.classList.contains('active')) el.classList.add('d-none');
+      }, 320);
     }
   });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-loginForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  if (username === ADMIN_LOGIN && password === ADMIN_PASSWORD) {
-    loginError.classList.add('d-none');
-    showScreen('form');
-  } else {
-    loginError.classList.remove('d-none');
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-});
+  return arr;
+}
 
-function extractPlayers(rawText) {
-  if (!rawText || !rawText.trim()) {
-    throw new Error('Cole a lista de jogadores antes de enviar.');
+function parsePlayers(rawText) {
+  const lower = rawText.toLowerCase();
+  const markerIndex = lower.indexOf('lista');
+  if (markerIndex === -1) {
+    throw new Error('A lista precisa conter a palavra "lista" antes dos nomes.');
   }
 
-  const normalized = rawText.replace(/\r/g, '');
-  const matchLista = normalized.match(/lista([\s\S]*)/i);
-  const relevantText = matchLista ? matchLista[1] : normalized;
-
+  const relevantText = rawText.slice(markerIndex + 5);
   const lines = relevantText
-    .split('\n')
+    .split(/\r?\n/)
     .map(line => line.trim())
     .filter(Boolean);
 
   const players = [];
-
   for (const line of lines) {
-    const match = line.match(/^\s*\d+\s*[-–—]\s*(.+?)\s*$/);
-    if (match && match[1]) {
-      players.push(match[1].trim());
+    const match = line.match(/^\s*(\d+)\s*[-–—]\s*(.+)\s*$/);
+    if (match && match[2]) {
+      players.push(match[2].trim());
     }
   }
 
   if (!players.length) {
-    throw new Error('Nenhum nome válido foi encontrado. Use o padrão número-nome após a palavra lista.');
+    throw new Error('Nenhum jogador válido foi encontrado. Use o padrão número-nome, por exemplo: 1-João');
   }
 
   return players;
 }
 
-function shuffleArray(array) {
-  const cloned = [...array];
-  for (let i = cloned.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
-  }
-  return cloned;
-}
-
 function distributePlayers(players, teamCount, playersPerTeam) {
-  const teams = Array.from({ length: teamCount }, (_, index) => ({
-    name: `Equipe ${index + 1}`,
-    players: []
-  }));
-
-  const shuffled = shuffleArray(players);
+  const shuffled = shuffle(players);
+  const teams = Array.from({ length: teamCount }, () => []);
   let cursor = 0;
 
   for (let teamIndex = 0; teamIndex < teamCount; teamIndex++) {
-    for (let slot = 0; slot < playersPerTeam; slot++) {
-      if (cursor < shuffled.length) {
-        teams[teamIndex].players.push(shuffled[cursor]);
-        cursor += 1;
-      }
+    while (teams[teamIndex].length < playersPerTeam && cursor < shuffled.length) {
+      teams[teamIndex].push(shuffled[cursor]);
+      cursor += 1;
     }
   }
 
@@ -111,94 +96,127 @@ function distributePlayers(players, teamCount, playersPerTeam) {
 }
 
 function renderTeams(teams, playersPerTeam) {
-  teamsGrid.innerHTML = '';
+  teamsContainer.innerHTML = '';
 
-  teams.forEach((team) => {
-    const ball = document.createElement('article');
-    ball.className = 'team-ball';
+  teams.forEach((team, index) => {
+    const color = teamColors[index] || teamColors[teamColors.length - 1];
+    const col = document.createElement('div');
+    col.className = 'col-12 col-md-6 col-xl-4';
 
-    const inner = document.createElement('div');
-    inner.className = 'team-inner';
+    const playersMarkup = team.length
+      ? team.map((player, playerIndex) => `
+          <div class="player-mini-card" style="background:${color.card}">
+            ${playerIndex + 1}. ${escapeHtml(player)}
+          </div>
+        `).join('')
+      : `<div class="player-empty">Sem jogadores nesta equipe</div>`;
 
-    const title = document.createElement('h2');
-    title.className = 'team-title';
-    title.textContent = team.name;
+    const missing = Math.max(playersPerTeam - team.length, 0);
+    const missingMarkup = missing
+      ? Array.from({ length: missing }, () => `<div class="player-empty">Vaga disponível</div>`).join('')
+      : '';
 
-    const miniBalls = document.createElement('div');
-    miniBalls.className = 'mini-balls';
+    col.innerHTML = `
+      <div class="card team-card" style="background:${color.bg}">
+        <div class="card-body">
+          <h3 class="team-name">Equipe ${index + 1}</h3>
+          <div class="team-meta">${team.length} / ${playersPerTeam} jogadores</div>
+          <div class="player-grid">
+            ${playersMarkup}
+            ${missingMarkup}
+          </div>
+        </div>
+      </div>
+    `;
 
-    for (let i = 0; i < playersPerTeam; i++) {
-      const playerBall = document.createElement('div');
-      playerBall.className = 'player-mini-ball';
-      if (team.players[i]) {
-        playerBall.textContent = team.players[i];
-      } else {
-        playerBall.classList.add('empty-slot');
-        playerBall.textContent = 'Vago';
-      }
-      miniBalls.appendChild(playerBall);
-    }
-
-    inner.appendChild(title);
-    inner.appendChild(miniBalls);
-    ball.appendChild(inner);
-    teamsGrid.appendChild(ball);
+    teamsContainer.appendChild(col);
   });
 }
 
-async function runLoadingThenShowResult() {
-  showScreen('loading');
-  loadingBall.classList.remove('expand');
-
-  await new Promise(resolve => setTimeout(resolve, 1400));
-  loadingBall.classList.add('expand');
-  await new Promise(resolve => setTimeout(resolve, 850));
-
-  showScreen('result');
-  setTimeout(() => loadingBall.classList.remove('expand'), 300);
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-drawForm.addEventListener('submit', async (event) => {
+async function playLoadingTransition() {
+  loadingOverlay.classList.remove('d-none');
+  loadingOverlay.classList.remove('expand');
+  await delay(1250);
+  loadingOverlay.classList.add('expand');
+  await delay(650);
+  loadingOverlay.classList.add('d-none');
+  loadingOverlay.classList.remove('expand');
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  drawError.classList.add('d-none');
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-  try {
-    const teamCount = Number(teamCountEl.value);
-    const playersPerTeam = Number(playersPerTeamEl.value);
-    const players = extractPlayers(playerListEl.value);
-
-    if (!teamCount || !playersPerTeam) {
-      throw new Error('Selecione a quantidade de equipes e de jogadores por equipe.');
-    }
-
-    const teams = distributePlayers(players, teamCount, playersPerTeam);
-    latestDraw = { teamCount, playersPerTeam, teams };
-    renderTeams(teams, playersPerTeam);
-    await runLoadingThenShowResult();
-  } catch (error) {
-    drawError.textContent = error.message || 'Não foi possível processar a lista.';
-    drawError.classList.remove('d-none');
+  if (username === VALID_USER && password === VALID_PASS) {
+    loginError.classList.add('d-none');
+    showScreen('form');
+  } else {
+    loginError.classList.remove('d-none');
   }
 });
 
-resetBtn.addEventListener('click', () => {
-  drawForm.reset();
-  drawError.classList.add('d-none');
-  teamsGrid.innerHTML = '';
-  latestDraw = null;
+sortForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  sortError.classList.add('d-none');
+  sortError.textContent = '';
+
+  try {
+    const teamCount = Number(document.getElementById('teamCount').value);
+    const playersPerTeam = Number(document.getElementById('playersPerTeam').value);
+    const playerList = document.getElementById('playerList').value;
+
+    if (!teamCount || !playersPerTeam || !playerList.trim()) {
+      throw new Error('Preencha todos os campos antes de enviar.');
+    }
+
+    const players = parsePlayers(playerList);
+    const teams = distributePlayers(players, teamCount, playersPerTeam);
+    lastDraw = teams;
+
+    await playLoadingTransition();
+    renderTeams(teams, playersPerTeam);
+    showScreen('result');
+  } catch (error) {
+    sortError.textContent = error.message || 'Não foi possível realizar o sorteio.';
+    sortError.classList.remove('d-none');
+  }
+});
+
+newDrawBtn.addEventListener('click', () => {
+  sortForm.reset();
+  sortError.classList.add('d-none');
+  teamsContainer.innerHTML = '';
+  lastDraw = [];
   showScreen('form');
 });
 
 async function generateCanvas() {
-  return await html2canvas(captureArea, {
+  return html2canvas(resultCapture, {
+    backgroundColor: '#0b1020',
     scale: 2,
     useCORS: true,
-    backgroundColor: '#0b1624'
+    logging: false
   });
 }
 
 downloadImageBtn.addEventListener('click', async () => {
-  if (!latestDraw) return;
+  if (!lastDraw.length) return;
   const canvas = await generateCanvas();
   const link = document.createElement('a');
   link.download = 'sorteio-times.png';
@@ -207,22 +225,18 @@ downloadImageBtn.addEventListener('click', async () => {
 });
 
 downloadPdfBtn.addEventListener('click', async () => {
-  if (!latestDraw) return;
+  if (!lastDraw.length) return;
   const canvas = await generateCanvas();
   const imgData = canvas.toDataURL('image/png');
   const { jsPDF } = window.jspdf;
-
-  const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: 'a4' });
+  const pdf = new jsPDF('p', 'mm', 'a4');
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
+  const imgWidth = pageWidth - 14;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  const y = imgHeight > pageHeight - 14 ? 7 : (pageHeight - imgHeight) / 2;
 
-  const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-  const imgWidth = canvas.width * ratio;
-  const imgHeight = canvas.height * ratio;
-  const x = (pageWidth - imgWidth) / 2;
-  const y = (pageHeight - imgHeight) / 2;
-
-  pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+  pdf.addImage(imgData, 'PNG', 7, y, imgWidth, Math.min(imgHeight, pageHeight - 14));
   pdf.save('sorteio-times.pdf');
 });
 

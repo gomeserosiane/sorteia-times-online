@@ -1,43 +1,27 @@
-# Sorteador de Times - versão compatível com Vercel
+# Sorteador de Times - Vercel
 
-## O que é
-Projeto 100% front-end, sem Node/Express no servidor, pronto para deploy na Vercel.
+Projeto estático compatível com a Vercel.
 
 ## Login
-- Login: `admin`
+- Usuário: `admin`
 - Senha: `2026`
 
-## Como rodar localmente
-Você pode simplesmente abrir o `index.html` no navegador.
-
-Se quiser rodar com servidor local:
-
-```bash
-npm install
-npm run dev
-```
+## Recursos
+- Tela de login
+- Link para WhatsApp abaixo da senha
+- Formulário de sorteio
+- Leitura da lista após a palavra `lista`
+- Reconhecimento do padrão `numero-nome`
+- Distribuição priorizando preencher corretamente as primeiras equipes
+- Resultado em cards coloridos por equipe
+- Mini cards com nomes dos jogadores
+- Botão para novo sorteio
+- Exportação em imagem e PDF
+- Loading com bola girando e expansão
 
 ## Deploy na Vercel
-1. Envie essa pasta para um repositório no GitHub.
+1. Envie os arquivos para um repositório GitHub.
 2. Importe o repositório na Vercel.
-3. Framework preset: `Other`.
-4. Não precisa configurar build command.
-5. Output directory: deixe em branco.
-6. Deploy.
+3. Faça o deploy.
 
-## Estrutura
-- `index.html` -> interface
-- `styles.css` -> visual e animações
-- `app.js` -> login, parser, sorteio e exportações
-- `vercel.json` -> ajustes simples de deploy
-
-## Formato da lista
-O sistema procura os nomes após a palavra `lista`, no padrão:
-
-```text
-lista
-1-João
-2-Maria
-3-Carlos
-4-Pedro
-```
+Não precisa de backend.

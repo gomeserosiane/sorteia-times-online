@@ -1,10 +1,9 @@
 {
-  "name": "sorteador-times-vercel",
+  "name": "vercel-futebol-sorteador",
   "version": "1.0.0",
   "private": true,
-  "description": "Sistema de sorteador de times de futebol compatível com a Vercel",
+  "description": "Sorteador de times de futebol pronto para deploy na Vercel",
   "scripts": {
-    "dev": "npx serve .",
     "start": "npx serve ."
   }
 }
