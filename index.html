@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorteador de Times Online</title>
+  <meta name="description" content="Sistema moderno de sorteador de times de futebol" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-grid"></div>
+
+  <main class="app-shell container py-4 py-lg-5">
+    <section id="loginScreen" class="screen active fade-screen">
+      <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-12 col-md-9 col-lg-6 col-xl-5">
+          <div class="glass-card p-4 p-lg-5 shadow-lg">
+            <div class="text-center mb-4">
+              <div class="hero-ball mb-3">⚽</div>
+              <h1 class="display-6 fw-bold mb-2">Sorteador de Times</h1>
+              <p class="text-light-emphasis mb-0">Entre no sistema para montar equipes de futebol de forma rápida e
+                organizada.</p>
+            </div>
+
+            <form id="loginForm" class="needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="username" class="form-label">Login</label>
+                <input type="text" class="form-control custom-input" id="username" placeholder="Digite seu login"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control custom-input" id="password" placeholder="Digite sua senha"
+                  required>
+              </div>
+              <div class="text-center mt-3">
+                <a href="https://wa.me/5591984536649?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20o%20acesso%20ao%20aplicativo%20web%20de%20sortear%20times."
+                  target="_blank" class="link-dev">
+                  não sabe o login e senha? fale com o desenvolvedor agora
+                </a>
+              </div>
+              <br><br>
+              <div id="loginError" class="alert alert-danger d-none py-2 small">Login ou senha incorretos.</div>
+              <button type="submit" class="btn btn-primary btn-modern w-100">Entrar no sistema</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formScreen" class="screen fade-screen d-none">
+      <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-12 col-xl-10">
+          <div class="glass-card p-3 p-md-4 p-xl-5 shadow-lg">
+            <img class="banner-img mb-4"
+              src="img/capa.png"
+              alt="Imagem de capa">
+
+            <div class="text-center mb-4">
+              <h1 class="fw-bold mb-2">Monte seu sorteio</h1>
+              <h3 class="subtitle mb-0">Defina as equipes, cole a lista e deixe o sistema organizar tudo.</h3>
+            </div>
+
+            <form id="drawForm" novalidate>
+              <div class="row g-4">
+                <div class="col-12 col-md-6">
+                  <label for="teamCount" class="form-label">Quantas equipes serão formadas?</label>
+                  <select id="teamCount" class="form-select custom-input" required>
+                    <option value="" selected disabled>Selecione</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label for="playersPerTeam" class="form-label">Quantos jogadores por equipe?</label>
+                  <select id="playersPerTeam" class="form-select custom-input" required>
+                    <option value="" selected disabled>Selecione</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="playerList" class="form-label d-flex align-items-center gap-2 mb-2">
+                    <span>Cole a lista aqui</span>
+                    <span class="down-arrow">↓</span>
+                  </label>
+                  <textarea id="playerList" class="form-control custom-input custom-textarea" rows="12"
+                    placeholder="Copie a lista e cole diretamente aqui" required></textarea>
+                  <div class="form-text text-light-emphasis mt-2">
+                    Pronto, agora é só enviar os dados preenchidos clicando no botão abaixo.
+                  </div>
+                </div>
+              </div>
+
+              <div id="drawError" class="alert alert-warning d-none mt-4 mb-0"></div>
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-modern px-5">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="loadingScreen" class="screen fade-screen d-none">
+      <div class="loading-wrap min-vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <div id="loadingBall" class="loading-ball">⚽</div>
+        <h2 class="fw-bold mt-4 mb-2">Preparando o sorteio...</h2>
+        <p class="text-light-emphasis mb-0">Distribuindo os jogadores nas equipes.</p>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen fade-screen d-none">
+      <div class="min-vh-100 d-flex flex-column">
+        <div class="d-flex justify-content-end pt-3 pt-lg-4 mb-3">
+          <button id="resetBtn" class="btn btn-outline-light btn-modern">Fazer novo sorteio</button>
+        </div>
+
+        <div id="captureArea" class="result-capture flex-grow-1">
+          <div class="text-center mb-4">
+            <h1 class="fw-bold mb-2">Resultado do Sorteio</h1>
+            <p class="subtitle mb-0">Equipes montadas com distribuição organizada e visual temático.</p>
+          </div>
+          <div id="teamsGrid" class="teams-grid"></div>
+        </div>
+
+        <div class="bottom-actions d-flex flex-column flex-md-row justify-content-center gap-3 mt-4 pb-4">
+          <button id="downloadImageBtn" class="btn btn-download-image btn-modern px-4">Baixar imagem</button>
+          <button id="downloadPdfBtn" class="btn btn-download-pdf btn-modern px-4">Baixar PDF</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
