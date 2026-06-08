@@ -1,27 +1,31 @@
-# Sorteador de Times - Vercel
+# Sorteador de Times Online
 
-Projeto estático compatível com a Vercel.
+Aplicação web estática para sortear times de futebol, com visual moderno, responsivo e pronta para deploy inicial na Vercel.
 
-## Login
-- Usuário: `admin`
-- Senha: `2026`
+## Funcionalidades
 
-## Recursos
-- Tela de login
-- Link para WhatsApp abaixo da senha
-- Formulário de sorteio
-- Leitura da lista após a palavra `lista`
-- Reconhecimento do padrão `numero-nome`
-- Distribuição priorizando preencher corretamente as primeiras equipes
-- Resultado em cards coloridos por equipe
-- Mini cards com nomes dos jogadores
-- Botão para novo sorteio
-- Exportação em imagem e PDF
-- Loading com bola girando e expansão
+- Sorteio de 2 a 5 equipes
+- Seleção de jogadores por equipe
+- Leitura de lista no padrão `número-nome`
+- Tela inicial direta, sem login e senha
+- Visual profissional com painel hero, cards modernos e animação de carregamento
+- Exportação do resultado em imagem PNG
+- Exportação do resultado em PDF
+- CSS separado por responsabilidade:
+  - `css/base.css`
+  - `css/form.css`
+  - `css/results.css`
+  - `css/responsive.css`
+
+## Como rodar localmente
+
+```bash
+npm install
+npm start
+```
+
+Depois acesse o endereço exibido no terminal.
 
 ## Deploy na Vercel
-1. Envie os arquivos para um repositório GitHub.
-2. Importe o repositório na Vercel.
-3. Faça o deploy.
 
-Não precisa de backend.
+O projeto foi mantido como aplicação estática. Basta importar o repositório na Vercel ou enviar os arquivos do projeto.

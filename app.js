@@ -1,15 +1,9 @@
-const VALID_USER = 'admin';
-const VALID_PASS = '2026';
-
 const screens = {
-  login: document.getElementById('loginScreen'),
   form: document.getElementById('formScreen'),
   result: document.getElementById('resultScreen')
 };
 
-const loginForm = document.getElementById('loginForm');
 const sortForm = document.getElementById('sortForm');
-const loginError = document.getElementById('loginError');
 const sortError = document.getElementById('sortError');
 const loadingOverlay = document.getElementById('loadingOverlay');
 const teamsContainer = document.getElementById('teamsContainer');
@@ -19,67 +13,83 @@ const downloadImageBtn = document.getElementById('downloadImageBtn');
 const downloadPdfBtn = document.getElementById('downloadPdfBtn');
 
 const teamColors = [
-  { bg: '#d1f7d6', card: '#7edc8a' },
-  { bg: '#fff3cd', card: '#ffe08a' },
-  { bg: '#f8d7da', card: '#f28b94' },
-  { bg: '#d1ecf1', card: '#7fd3e0' },
-  { bg: '#f8d1ec', card: '#f28bd6' }
+  { bg: '#dcfce7', card: '#86efac' },
+  { bg: '#fef9c3', card: '#fde047' },
+  { bg: '#dbeafe', card: '#93c5fd' },
+  { bg: '#fae8ff', card: '#e879f9' },
+  { bg: '#ffedd5', card: '#fdba74' }
 ];
 
 let lastDraw = [];
+let lastPlayersPerTeam = 0;
 
+// Alterna entre as telas principais do sistema com transição suave.
 function showScreen(targetKey) {
   Object.entries(screens).forEach(([key, el]) => {
     if (key === targetKey) {
       el.classList.remove('d-none');
       requestAnimationFrame(() => el.classList.add('active'));
-    } else {
-      el.classList.remove('active');
-      setTimeout(() => {
-        if (!el.classList.contains('active')) el.classList.add('d-none');
-      }, 320);
+      return;
     }
+
+    el.classList.remove('active');
+    setTimeout(() => {
+      if (!el.classList.contains('active')) el.classList.add('d-none');
+    }, 320);
   });
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Embaralha os jogadores usando o algoritmo Fisher-Yates.
 function shuffle(array) {
   const arr = [...array];
+
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+
   return arr;
 }
 
+// Lê a lista colada e extrai os nomes no padrão: número-nome.
 function parsePlayers(rawText) {
   const lower = rawText.toLowerCase();
   const markerIndex = lower.indexOf('lista');
-  if (markerIndex === -1) {
-    throw new Error('A lista precisa conter a palavra "lista" antes dos nomes.');
-  }
+  const relevantText = markerIndex >= 0 ? rawText.slice(markerIndex + 5) : rawText;
 
-  const relevantText = rawText.slice(markerIndex + 5);
   const lines = relevantText
     .split(/\r?\n/)
     .map(line => line.trim())
     .filter(Boolean);
 
   const players = [];
+
   for (const line of lines) {
-    const match = line.match(/^\s*(\d+)\s*[-–—]\s*(.+)\s*$/);
+    const match = line.match(/^\s*(\d+)\s*[-–—.]\s*(.+)\s*$/);
+
     if (match && match[2]) {
       players.push(match[2].trim());
+      continue;
+    }
+
+    // Também aceita linhas sem número para facilitar o uso no dia a dia.
+    if (!/^lista$/i.test(line) && !/^\d+$/.test(line)) {
+      players.push(line.replace(/^[-–—.]\s*/, '').trim());
     }
   }
 
-  if (!players.length) {
-    throw new Error('Nenhum jogador válido foi encontrado. Use o padrão número-nome, por exemplo: 1-João');
+  const cleanPlayers = players.filter(Boolean);
+
+  if (!cleanPlayers.length) {
+    throw new Error('Nenhum jogador válido foi encontrado. Use o padrão 1-João, um jogador por linha.');
   }
 
-  return players;
+  return cleanPlayers;
 }
 
+// Distribui os jogadores sorteados respeitando a quantidade de equipes e vagas por equipe.
 function distributePlayers(players, teamCount, playersPerTeam) {
   const shuffled = shuffle(players);
   const teams = Array.from({ length: teamCount }, () => []);
@@ -95,6 +105,7 @@ function distributePlayers(players, teamCount, playersPerTeam) {
   return teams;
 }
 
+// Renderiza os cards das equipes na tela de resultado.
 function renderTeams(teams, playersPerTeam) {
   teamsContainer.innerHTML = '';
 
@@ -109,11 +120,11 @@ function renderTeams(teams, playersPerTeam) {
             ${playerIndex + 1}. ${escapeHtml(player)}
           </div>
         `).join('')
-      : `<div class="player-empty">Sem jogadores nesta equipe</div>`;
+      : '<div class="player-empty">Sem jogadores nesta equipe</div>';
 
     const missing = Math.max(playersPerTeam - team.length, 0);
     const missingMarkup = missing
-      ? Array.from({ length: missing }, () => `<div class="player-empty">Vaga disponível</div>`).join('')
+      ? Array.from({ length: missing }, () => '<div class="player-empty">Vaga disponível</div>').join('')
       : '';
 
     col.innerHTML = `
@@ -133,6 +144,7 @@ function renderTeams(teams, playersPerTeam) {
   });
 }
 
+// Evita que nomes digitados pelo usuário sejam interpretados como HTML.
 function escapeHtml(text) {
   const map = {
     '&': '&amp;',
@@ -141,15 +153,17 @@ function escapeHtml(text) {
     '"': '&quot;',
     "'": '&#039;'
   };
+
   return text.replace(/[&<>"']/g, m => map[m]);
 }
 
+// Exibe uma animação curta antes de abrir o resultado.
 async function playLoadingTransition() {
   loadingOverlay.classList.remove('d-none');
   loadingOverlay.classList.remove('expand');
-  await delay(1250);
+  await delay(900);
   loadingOverlay.classList.add('expand');
-  await delay(650);
+  await delay(500);
   loadingOverlay.classList.add('d-none');
   loadingOverlay.classList.remove('expand');
 }
@@ -157,19 +171,6 @@ async function playLoadingTransition() {
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-loginForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  if (username === VALID_USER && password === VALID_PASS) {
-    loginError.classList.add('d-none');
-    showScreen('form');
-  } else {
-    loginError.classList.remove('d-none');
-  }
-});
 
 sortForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -186,8 +187,15 @@ sortForm.addEventListener('submit', async (event) => {
     }
 
     const players = parsePlayers(playerList);
+    const minimumPlayers = teamCount * playersPerTeam;
+
+    if (players.length < minimumPlayers) {
+      throw new Error(`Você informou ${players.length} jogador(es), mas esse formato precisa de ${minimumPlayers}.`);
+    }
+
     const teams = distributePlayers(players, teamCount, playersPerTeam);
     lastDraw = teams;
+    lastPlayersPerTeam = playersPerTeam;
 
     await playLoadingTransition();
     renderTeams(teams, playersPerTeam);
@@ -203,12 +211,13 @@ newDrawBtn.addEventListener('click', () => {
   sortError.classList.add('d-none');
   teamsContainer.innerHTML = '';
   lastDraw = [];
+  lastPlayersPerTeam = 0;
   showScreen('form');
 });
 
 async function generateCanvas() {
   return html2canvas(resultCapture, {
-    backgroundColor: '#0b1020',
+    backgroundColor: '#06130d',
     scale: 2,
     useCORS: true,
     logging: false
@@ -217,6 +226,7 @@ async function generateCanvas() {
 
 downloadImageBtn.addEventListener('click', async () => {
   if (!lastDraw.length) return;
+
   const canvas = await generateCanvas();
   const link = document.createElement('a');
   link.download = 'sorteio-times.png';
@@ -226,6 +236,7 @@ downloadImageBtn.addEventListener('click', async () => {
 
 downloadPdfBtn.addEventListener('click', async () => {
   if (!lastDraw.length) return;
+
   const canvas = await generateCanvas();
   const imgData = canvas.toDataURL('image/png');
   const { jsPDF } = window.jspdf;
@@ -240,4 +251,4 @@ downloadPdfBtn.addEventListener('click', async () => {
   pdf.save('sorteio-times.pdf');
 });
 
-showScreen('login');
+showScreen('form');

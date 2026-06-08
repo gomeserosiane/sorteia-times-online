@@ -1,0 +1,43 @@
+@media (min-width: 1400px) {
+  .container { max-width: 1280px; }
+}
+
+@media (max-width: 1199.98px) {
+  .brand-panel { min-height: 560px; }
+}
+
+@media (max-width: 991.98px) {
+  .app-card { border-radius: 28px; }
+  .brand-panel { min-height: 430px; }
+  .action-row { justify-content: stretch; }
+  .primary-btn { width: 100%; }
+}
+
+@media (max-width: 767.98px) {
+  .app-shell { padding-left: 1rem; padding-right: 1rem; }
+  .brand-panel { min-height: 380px; padding: 1.5rem; }
+  .brand-panel::before { inset: .75rem; border-radius: 22px; }
+  .feature-list { gap: .65rem; }
+  .feature-item { align-items: flex-start; }
+  .form-panel { padding: 1.25rem; }
+  .custom-input { min-height: 54px; }
+  .textarea-input { min-height: 230px; }
+  .result-header { align-items: flex-start; }
+  .top-action-btn { width: 100%; }
+  .result-brand { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 575.98px) {
+  .app-card { border-radius: 22px; }
+  .brand-panel { min-height: 340px; }
+  .brand-panel h1 { font-size: 2.45rem; }
+  .section-heading h2 { font-size: 1.85rem; }
+  .hero-chip { font-size: .68rem; }
+  .export-actions .btn { width: 100%; }
+}
+
+@media (max-width: 390px) {
+  .brand-panel { padding: 1rem; }
+  .form-panel { padding: 1rem; }
+  .feature-item { padding: .75rem; }
+}

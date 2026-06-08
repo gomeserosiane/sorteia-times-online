@@ -1,0 +1,88 @@
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem 0;
+}
+.result-header h2 {
+  margin: .85rem 0 .25rem;
+  font-weight: 950;
+  letter-spacing: -.04em;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+.result-header p { color: var(--muted); margin: 0; }
+.top-action-btn {
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 16px;
+  color: #ecfccb;
+  background: rgba(255,255,255,.08);
+  font-weight: 900;
+  padding: .8rem 1.15rem;
+}
+.top-action-btn:hover { color: #052e16; background: #bef264; }
+.result-capture-area {
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  background:
+    radial-gradient(circle at top left, rgba(34,197,94,.14), transparent 26%),
+    rgba(4, 15, 9, .86);
+  box-shadow: var(--shadow);
+}
+.result-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .85rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 18px;
+  color: #dcfce7;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.11);
+}
+.result-brand strong { color: #bef264; }
+.team-card {
+  border: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 100%;
+  box-shadow: 0 18px 34px rgba(0,0,0,.18);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.team-card:hover { transform: translateY(-5px); box-shadow: 0 28px 42px rgba(0,0,0,.22); }
+.team-card .card-body { padding: 1.25rem; }
+.team-name { color: #082f1a; font-size: 1.25rem; font-weight: 950; margin: 0; }
+.team-meta { color: rgba(8,47,26,.72); font-weight: 900; margin: .35rem 0 1rem; }
+.player-grid { display: grid; gap: .75rem; }
+.player-mini-card,
+.player-empty {
+  border-radius: 16px;
+  padding: .85rem .95rem;
+  color: #052e16;
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(0,0,0,.12);
+}
+.player-empty {
+  border: 1px dashed rgba(8,47,26,.28);
+  background: rgba(255,255,255,.42);
+  color: rgba(8,47,26,.62);
+}
+.export-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.5rem 0 2rem;
+}
+.export-image-btn,
+.export-pdf-btn {
+  border: 0;
+  border-radius: 18px;
+  font-weight: 950;
+  color: #052e16;
+}
+.export-image-btn { background: linear-gradient(135deg, #bbf7d0, #22c55e); }
+.export-pdf-btn { background: linear-gradient(135deg, #fde68a, #facc15); }
