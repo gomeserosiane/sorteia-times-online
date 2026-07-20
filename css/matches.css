@@ -1,0 +1,156 @@
+.matches-timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.completed-match {
+  border-color: #d1d5db;
+  background: #f3f4f6;
+}
+
+.completed-match .match-heading,
+.completed-match .final-result {
+  background: #f3f4f6;
+}
+
+.completed-match .match-heading {
+  border-bottom-color: #d1d5db;
+}
+
+.completed-match .final-result {
+  border-bottom: 0;
+}
+
+.matchup-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  min-height: 320px;
+}
+
+.match-divider {
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.match-team {
+  padding: 1.25rem;
+}
+
+.team-content h3 {
+  margin: .15rem 0 .95rem;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 850;
+}
+
+.shirt-icon {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  padding: .55rem;
+  border-radius: 12px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border: 1px solid #dbeafe;
+}
+
+.player-shirt-icon {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  padding: .26rem;
+  border-radius: 8px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border: 1px solid #dbeafe;
+}
+
+.match-player-list,
+.compact-player-list {
+  display: grid;
+  gap: .55rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.match-player-list li,
+.compact-player-list li {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 38px;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-2);
+  font-weight: 650;
+}
+
+.match-team-left .match-player-list li {
+  flex-direction: row-reverse;
+}
+
+.match-team-left .match-player-list li strong {
+  text-align: right;
+}
+
+.match-player-list li strong,
+.compact-player-list li strong {
+  min-width: 0;
+  color: var(--text);
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.final-result {
+  padding: 1rem 1.15rem;
+}
+
+.scoreline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .75rem;
+  flex-wrap: wrap;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 850;
+}
+
+.score-team {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.score-team.winner,
+.score-team.winner strong {
+  color: #16a34a;
+}
+
+.score-team.loser,
+.score-team.loser strong {
+  color: #dc2626;
+}
+
+.score-separator {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.tie-result {
+  display: grid;
+  gap: .3rem;
+}
+
+.tie-result strong {
+  color: #ca8a04;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.tie-result span {
+  color: #16a34a;
+  font-weight: 850;
+}

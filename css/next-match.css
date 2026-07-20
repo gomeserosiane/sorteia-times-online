@@ -1,0 +1,29 @@
+.queue-panel {
+  display: grid;
+  gap: .9rem;
+}
+
+.queue-list {
+  display: grid;
+  gap: .65rem;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.queue-item strong {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.support-empty {
+  color: var(--muted);
+  margin: .4rem 0 0;
+}

@@ -1,0 +1,131 @@
+.match-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(37,99,235,.2);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(57,255,20,.22), transparent 28%),
+    radial-gradient(circle at 88% 20%, rgba(37,99,235,.2), transparent 30%),
+    #ffffff;
+  box-shadow: 0 20px 54px rgba(15, 23, 42, .1);
+}
+
+.timer-copy {
+  display: grid;
+  gap: .65rem;
+}
+
+.timer-display-card {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  min-width: clamp(190px, 28vw, 270px);
+  padding: .82rem 1.15rem;
+  border-radius: 18px;
+  border: 1px solid rgba(57,255,20,.72);
+  background: linear-gradient(135deg, #07111f, #10213d 58%, #081426);
+  box-shadow:
+    inset 0 0 22px rgba(57,255,20,.12),
+    0 0 0 5px rgba(57,255,20,.08),
+    0 18px 34px rgba(37,99,235,.2);
+  overflow: hidden;
+}
+
+.timer-display-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, transparent, rgba(57,255,20,.22), transparent);
+  transform: translateX(-100%);
+  animation: timerSweep 3s linear infinite;
+}
+
+.timer-glow {
+  position: absolute;
+  right: -24px;
+  top: -28px;
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  background: #39ff14;
+  opacity: .22;
+  filter: blur(18px);
+}
+
+.timer-display {
+  display: block;
+  color: #f8fff6;
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-shadow: 0 0 18px rgba(57,255,20,.58);
+}
+
+@keyframes timerSweep {
+  to { transform: translateX(100%); }
+}
+
+.timer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.timer-status {
+  color: var(--muted);
+  font-size: .9rem;
+  font-weight: 650;
+}
+
+.timer-btn {
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  color: #ffffff;
+  background: var(--primary);
+  font-weight: 750;
+  padding: .68rem 1rem;
+}
+
+.timer-btn:hover {
+  color: #ffffff;
+  background: var(--primary-dark);
+}
+
+.timer-btn.ghost {
+  color: var(--text);
+  border-color: var(--line);
+  background: #ffffff;
+}
+
+.timer-btn.ghost:hover {
+  color: var(--primary-dark);
+  border-color: #bfdbfe;
+  background: var(--primary-soft);
+}
+
+.timer-btn.danger {
+  color: #ffffff;
+  border-color: #ef4444;
+  background: #ef4444;
+}
+
+.timer-btn.danger:hover {
+  color: #ffffff;
+  border-color: #dc2626;
+  background: #dc2626;
+}
+
+.timer-btn:disabled,
+.timer-btn.ghost:disabled {
+  color: #94a3b8;
+  border-color: var(--line);
+  background: #f8fafc;
+  cursor: not-allowed;
+}

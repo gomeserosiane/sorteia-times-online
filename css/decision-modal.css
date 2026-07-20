@@ -1,0 +1,134 @@
+.decision-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, .58);
+  backdrop-filter: blur(8px);
+}
+
+.decision-modal {
+  width: min(680px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: #ffffff;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, .24);
+}
+
+.decision-modal h2 {
+  margin: .45rem 0 .35rem;
+  color: var(--text);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  font-weight: 850;
+}
+
+.decision-modal p {
+  color: var(--muted);
+  margin: 0 0 1.2rem;
+  font-weight: 650;
+}
+
+.decision-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: .65rem;
+}
+
+.modal-actions {
+  justify-content: stretch;
+}
+
+.decision-btn {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: #ffffff;
+  font-weight: 750;
+  padding: .72rem 1rem;
+}
+
+.decision-btn.ghost {
+  color: var(--muted);
+  background: #f8fafc;
+}
+
+.decision-btn.ghost:hover,
+.decision-btn.muted:hover {
+  color: var(--primary-dark);
+  border-color: #bfdbfe;
+  background: var(--primary-soft);
+}
+
+.decision-btn.selected {
+  color: #ffffff;
+  border-color: var(--primary);
+  background: var(--primary);
+  box-shadow: 0 12px 26px rgba(37,99,235,.22);
+}
+
+.decision-btn.muted,
+.decision-btn:disabled {
+  color: #94a3b8;
+  border-color: #e5e7eb;
+  background: #f3f4f6;
+}
+
+.decision-btn:disabled {
+  cursor: not-allowed;
+}
+
+.modal-actions .decision-btn {
+  flex: 1 1 140px;
+}
+
+.decision-btn:hover {
+  color: #ffffff;
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.decision-btn.danger {
+  color: #ffffff;
+  border-color: #ef4444;
+  background: #ef4444;
+}
+
+.decision-btn.danger:hover {
+  color: #ffffff;
+  border-color: #dc2626;
+  background: #dc2626;
+}
+
+.decision-btn.light {
+  color: var(--primary-dark);
+  border-color: #bfdbfe;
+  background: var(--primary-soft);
+}
+
+.tie-breaker-panel,
+.score-picker-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: #eff6ff;
+}
+
+.tie-breaker-panel h3,
+.score-picker-panel h3 {
+  margin: .2rem 0 0;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 850;
+}
+
+.tie-breaker-panel .decision-actions,
+.score-picker-panel .decision-actions {
+  justify-content: flex-start;
+  margin-top: .85rem;
+}

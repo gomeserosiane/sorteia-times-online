@@ -1,0 +1,27 @@
+const MATCH_DURATION_SECONDS = 0.10 * 60;
+
+let timerInterval = null;
+let matchState = createEmptyMatchState();
+
+function createEmptyMatchState() {
+  return {
+    allTeams: [],
+    currentMatchNumber: 1,
+    currentMatch: null,
+    waitingTeams: [],
+    results: [],
+    wins: {},
+    stats: {},
+    sortedTeamsOpen: false,
+    timerSeconds: MATCH_DURATION_SECONDS,
+    timerRunning: false,
+    decisionOverlayOpen: false,
+    decisionMode: 'winner',
+    allowTie: true,
+    selectedDecision: null,
+    pendingWinnerSide: null,
+    pendingTieScore: null,
+    pendingWasTie: false,
+    showTieBreaker: false
+  };
+}

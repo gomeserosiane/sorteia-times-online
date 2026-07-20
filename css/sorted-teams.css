@@ -1,0 +1,53 @@
+.sorted-teams-panel {
+  display: grid;
+  gap: .9rem;
+}
+
+.faq-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.faq-heading h3 {
+  margin: .2rem 0 0;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 850;
+}
+
+.faq-toggle-btn {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  font-weight: 800;
+  padding: .62rem .9rem;
+}
+
+.faq-toggle-btn:hover {
+  color: #ffffff;
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.sorted-teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: .75rem;
+}
+
+.sorted-team-card {
+  padding: .9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.sorted-team-card h4 {
+  margin: 0 0 .75rem;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 850;
+}
