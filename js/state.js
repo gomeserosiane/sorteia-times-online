@@ -1,4 +1,4 @@
-const MATCH_DURATION_SECONDS = 0.10 * 60;
+const MATCH_DURATION_SECONDS = 7 * 60;
 
 let timerInterval = null;
 let matchState = createEmptyMatchState();
