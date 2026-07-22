@@ -1,9 +1,11 @@
 // Controla a criacao das partidas, resultados e estatisticas do fluxo principal.
-function setupMatchFlow(teams) {
+function setupMatchFlow(teams, matchDurationSeconds = MATCH_DURATION_SECONDS) {
   const teamModels = buildTeamModels(teams);
 
   stopTimer();
   matchState = createEmptyMatchState();
+  matchState.matchDurationSeconds = matchDurationSeconds;
+  matchState.timerSeconds = matchDurationSeconds;
   matchState.allTeams = teamModels;
   matchState.wins = teamModels.reduce((wins, team) => {
     wins[team.id] = 0;

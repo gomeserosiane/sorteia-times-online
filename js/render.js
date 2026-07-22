@@ -2,8 +2,9 @@
 function renderMatchFlow() {
   teamsContainer.innerHTML = `
     ${renderTimer()}
-    ${renderMatchesTimeline()}
+    ${renderCurrentMatchSection()}
     ${renderNextMatchPanel()}
+    ${renderCompletedMatchesPanel()}
     ${renderStatsTable()}
     ${renderSortedTeamsFaq()}
   `;

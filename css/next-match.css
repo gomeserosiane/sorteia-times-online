@@ -1,6 +1,13 @@
 .queue-panel {
   display: grid;
   gap: .9rem;
+  border-color: #93c5fd;
+  background: #eff6ff;
+  box-shadow: 0 16px 36px rgba(37,99,235,.12);
+}
+
+.queue-panel .panel-kicker {
+  color: #1d4ed8;
 }
 
 .queue-list {
@@ -13,13 +20,13 @@
   align-items: center;
   gap: .7rem;
   padding: .75rem;
-  border: 1px solid var(--line);
+  border: 1px solid #bfdbfe;
   border-radius: 10px;
-  background: var(--surface-2);
+  background: #dbeafe;
 }
 
 .queue-item strong {
-  color: var(--text);
+  color: #1e3a8a;
   font-weight: 800;
 }
 

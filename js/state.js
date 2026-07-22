@@ -13,6 +13,7 @@ function createEmptyMatchState() {
     wins: {},
     stats: {},
     sortedTeamsOpen: false,
+    matchDurationSeconds: MATCH_DURATION_SECONDS,
     timerSeconds: MATCH_DURATION_SECONDS,
     timerRunning: false,
     decisionOverlayOpen: false,

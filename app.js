@@ -6,9 +6,10 @@ sortForm.addEventListener('submit', async (event) => {
   try {
     const teamCount = Number(document.getElementById('teamCount').value);
     const playersPerTeam = Number(document.getElementById('playersPerTeam').value);
+    const matchDurationSeconds = Number(document.getElementById('matchDuration').value);
     const playerList = document.getElementById('playerList').value;
 
-    if (!teamCount || !playersPerTeam || !playerList.trim()) {
+    if (!teamCount || !playersPerTeam || !matchDurationSeconds || !playerList.trim()) {
       throw new Error('Preencha todos os campos antes de enviar.');
     }
 
@@ -22,7 +23,7 @@ sortForm.addEventListener('submit', async (event) => {
     const teams = distributePlayers(players, teamCount, playersPerTeam);
 
     await playLoadingTransition();
-    setupMatchFlow(teams);
+    setupMatchFlow(teams, matchDurationSeconds);
     showScreen('result');
   } catch (error) {
     sortError.textContent = error.message || 'Nao foi possivel realizar o sorteio.';

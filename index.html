@@ -36,7 +36,7 @@
                 <aside class="brand-panel h-100">
                   <span class="eyebrow">Futebol &bull; Sorteio r&aacute;pido</span>
                   <h1>Sorteador de Times</h1>
-                  <p>Monte os times, acompanhe cada partida de 7 minutos e avance o vencedor para o pr&oacute;ximo confronto.</p>
+                  <p>Monte os times, escolha o tempo da partida e avance o vencedor para o pr&oacute;ximo confronto.</p>
 
                   <div class="feature-list">
                     <div class="feature-item">
@@ -88,6 +88,15 @@
                           <option value="11">11 jogadores</option>
                         </select>
                       </div>
+                      <div class="col-12">
+                        <label for="matchDuration" class="form-label">Tempo da partida</label>
+                        <select id="matchDuration" class="form-select custom-input" required>
+                          <option value="" selected disabled>Selecione</option>
+                          <option value="300">5 minutos</option>
+                          <option value="420">7 minutos</option>
+                          <option value="600">10 minutos</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div class="mt-4">
@@ -133,6 +142,10 @@
       </div>
     </section>
   </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2026. Desenvolvido por Regi.</p>
+  </footer>
 
   <div id="matchDecisionOverlay" class="decision-overlay d-none" aria-live="assertive"></div>
 

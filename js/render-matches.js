@@ -1,9 +1,19 @@
-// Renderiza os cards de partidas atuais e encerradas.
-function renderMatchesTimeline() {
+// Renderiza o card da partida em andamento.
+function renderCurrentMatchSection() {
   return `
     <section class="matches-timeline" aria-label="Partidas">
-      ${matchState.results.map(renderCompletedMatchCard).join('')}
       ${renderCurrentMatch()}
+    </section>
+  `;
+}
+
+function renderCompletedMatchesPanel() {
+  if (!matchState.results.length) return '';
+  const completedMatches = [...matchState.results].reverse();
+
+  return `
+    <section class="matches-timeline completed-matches-panel" aria-label="Partidas encerradas">
+      ${completedMatches.map(renderCompletedMatchCard).join('')}
     </section>
   `;
 }

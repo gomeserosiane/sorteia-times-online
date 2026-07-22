@@ -40,7 +40,7 @@ function stopTimer() {
 
 function resetTimer() {
   stopTimer();
-  matchState.timerSeconds = MATCH_DURATION_SECONDS;
+  matchState.timerSeconds = matchState.matchDurationSeconds || MATCH_DURATION_SECONDS;
   matchState.decisionOverlayOpen = false;
   matchState.decisionMode = 'winner';
   matchState.allowTie = true;

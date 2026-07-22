@@ -4,17 +4,22 @@
 }
 
 .completed-match {
-  border-color: #d1d5db;
-  background: #f3f4f6;
+  border-color: #9ca3af;
+  background: #d1d5db;
 }
 
 .completed-match .match-heading,
 .completed-match .final-result {
-  background: #f3f4f6;
+  background: #d1d5db;
 }
 
 .completed-match .match-heading {
-  border-bottom-color: #d1d5db;
+  border-bottom-color: #9ca3af;
+}
+
+.completed-match .match-heading span,
+.completed-match .match-heading strong {
+  color: #374151;
 }
 
 .completed-match .final-result {
