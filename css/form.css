@@ -1,14 +1,16 @@
 .brand-panel {
   position: relative;
-  min-height: 620px;
+  min-height: clamp(320px, 44vw, 520px);
   padding: clamp(2rem, 4vw, 3.2rem);
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: flex-end;
   color: #ffffff;
   background:
-    linear-gradient(180deg, rgba(15,23,42,.08), rgba(15,23,42,.78)),
-    url('../img/capa.png') center/cover no-repeat;
+    linear-gradient(180deg, rgba(15,23,42,.02), rgba(15,23,42,.72)),
+    url('../img/capa.png') center/contain no-repeat,
+    #0f172a;
 }
 
 .brand-panel::before {
@@ -20,53 +22,13 @@
   pointer-events: none;
 }
 
-.eyebrow {
-  color: #dbeafe;
-  font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  font-size: .78rem;
-}
-
 .brand-panel h1 {
   position: relative;
   font-size: clamp(2.5rem, 5vw, 4.8rem);
   line-height: .96;
   font-weight: 850;
   margin: 1rem 0;
-}
-
-.brand-panel p {
-  max-width: 460px;
-  color: #eef2ff;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-
-.feature-list {
-  display: grid;
-  gap: .75rem;
-  margin-top: 2rem;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: .85rem;
-  padding: .9rem 1rem;
-  border: 1px solid rgba(255,255,255,.22);
-  border-radius: 10px;
-  background: rgba(15,23,42,.32);
-}
-
-.feature-item strong {
-  color: #bfdbfe;
-  font-weight: 850;
-}
-
-.feature-item span {
-  color: #ffffff;
-  font-weight: 700;
+  text-align: center;
 }
 
 .form-panel {

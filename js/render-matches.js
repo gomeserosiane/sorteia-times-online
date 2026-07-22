@@ -22,7 +22,10 @@ function renderCompletedMatchCard(result) {
   return `
     <article class="match-card completed-match" aria-label="Partida ${result.number} encerrada">
       <div class="match-heading">
-        <span>Partida ${result.number}</span>
+        <span class="completed-match-title">
+          Partida ${result.number}
+          ${renderCompletedMatchHeaderResult(result)}
+        </span>
         <strong>Partida encerrada</strong>
       </div>
 
@@ -31,6 +34,17 @@ function renderCompletedMatchCard(result) {
       </div>
     </article>
   `;
+}
+
+function renderCompletedMatchHeaderResult(result) {
+  if (result.wasTie) {
+    return `
+      <span class="neon-tie-label">partida empatada</span>
+      <span class="neon-winner-label">vencedor do par ou impar: ${escapeHtml(result.winner.name)}</span>
+    `;
+  }
+
+  return `<span class="neon-winner-label">vencedor: ${escapeHtml(result.winner.name)}</span>`;
 }
 
 function renderScoreResult(result) {

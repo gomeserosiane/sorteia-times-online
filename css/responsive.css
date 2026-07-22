@@ -8,13 +8,11 @@
 }
 
 @media (max-width: 1199.98px) {
-  .brand-panel { min-height: 560px; }
   .match-team { padding: 1.1rem; }
 }
 
 @media (max-width: 991.98px) {
   .app-card { border-radius: 16px; }
-  .brand-panel { min-height: 430px; }
   .action-row { justify-content: stretch; }
   .primary-btn { width: 100%; }
   .decision-actions { justify-content: flex-start; }
@@ -27,8 +25,9 @@
   }
 
   .brand-panel {
-    min-height: 380px;
-    padding: 1.5rem;
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+    padding: 1.1rem;
   }
 
   .brand-panel::before {
@@ -36,8 +35,11 @@
     border-radius: 12px;
   }
 
-  .feature-list { gap: .65rem; }
-  .feature-item { align-items: flex-start; }
+  .brand-panel h1 {
+    font-size: clamp(1.65rem, 8vw, 2.45rem);
+    margin: .6rem 0;
+  }
+
   .form-panel { padding: 1.25rem; }
   .custom-input { min-height: 54px; }
   .textarea-input { min-height: 230px; }
@@ -118,8 +120,8 @@
 
 @media (max-width: 575.98px) {
   .app-card { border-radius: 14px; }
-  .brand-panel { min-height: 340px; }
-  .brand-panel h1 { font-size: 2.35rem; }
+  .brand-panel { aspect-ratio: 16 / 11; }
+  .brand-panel h1 { font-size: clamp(1.45rem, 8vw, 2rem); }
   .section-heading h2 { font-size: 1.8rem; }
   .hero-chip { font-size: .66rem; }
   .result-capture-area { padding: .75rem; }
@@ -130,9 +132,16 @@
 }
 
 @media (max-width: 390px) {
-  .brand-panel { padding: 1rem; }
+  .brand-panel {
+    aspect-ratio: 22 / 12;
+    padding: .85rem;
+  }
+
+  .brand-panel h1 {
+    font-size: 1.55rem;
+  }
+
   .form-panel { padding: 1rem; }
-  .feature-item { padding: .75rem; }
   .match-player-list li,
   .compact-player-list li {
     align-items: flex-start;
