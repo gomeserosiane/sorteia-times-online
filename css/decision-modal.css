@@ -115,6 +115,19 @@
   background: var(--primary-soft);
 }
 
+.decision-btn.light.selected {
+  color: #ffffff;
+  border-color: var(--primary);
+  background: var(--primary);
+  box-shadow: 0 12px 26px rgba(37,99,235,.22);
+}
+
+.decision-btn.light.muted {
+  color: #94a3b8;
+  border-color: #e5e7eb;
+  background: #f3f4f6;
+}
+
 .tie-breaker-panel,
 .score-picker-panel {
   margin-top: 1rem;

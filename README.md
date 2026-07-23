@@ -27,7 +27,7 @@ Aplicacao web estatica para sortear times de futebol, acompanhar partidas de 7 m
 - Escolha de placar da partida: `1x0`, `2x0` ou `2x1`
 - Menu `Quem venceu a partida?` com opcao selecionada em destaque e demais em cinza claro
 - Alerta de decisao com pagina travada ao fundo e rolagem apenas dentro do modal no responsivo
-- Opcoes de placar e par ou impar ficam selecionadas ao serem escolhidas
+- Opcoes de placar e par ou impar usam o mesmo destaque de selecao do menu principal
 - Submenus expansivos para placar e par ou impar, com fechamento ao clicar novamente na opcao selecionada
 - Criacao continua de novas partidas, sem limite final
 - Formato especial para 4 times, com vencedor seguindo contra times aguardando e depois contra perdedores em fila

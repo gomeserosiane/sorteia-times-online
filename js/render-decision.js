@@ -85,9 +85,12 @@ function renderScorePicker() {
 
 function getScoreButtonClass(score) {
   const classes = ['btn', 'decision-btn', 'light'];
+  const selectedScore = matchState.pendingTieScore || matchState.pendingScore;
 
-  if (matchState.pendingTieScore === score || matchState.pendingScore === score) {
+  if (selectedScore === score) {
     classes.push('selected');
+  } else if (selectedScore) {
+    classes.push('muted');
   }
 
   return classes.join(' ');
