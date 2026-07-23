@@ -9,6 +9,10 @@ function renderNextMatchPanel() {
 }
 
 function renderNextMatchPreview() {
+  if (matchState.allTeams.length === 4) {
+    return renderFourTeamNextMatchPreview();
+  }
+
   const currentNumber = matchState.currentMatch?.number || 1;
   const thirdTeam = matchState.waitingTeams[0];
 
@@ -33,6 +37,35 @@ function renderNextMatchPreview() {
   return `
     <div class="queue-item">
       <strong>perdedor da partida ${currentNumber} x vencedor da partida ${currentNumber}</strong>
+    </div>
+  `;
+}
+
+function renderFourTeamNextMatchPreview() {
+  const currentNumber = matchState.currentMatch?.number || 1;
+  const waitingTeam = matchState.waitingTeams[0];
+
+  if (matchState.pendingTieMatch) {
+    return `
+      <div class="queue-item">
+        <strong>vencedor da partida ${currentNumber} x ${escapeHtml(matchState.pendingTieMatch.winner.name)}</strong>
+      </div>
+    `;
+  }
+
+  if (waitingTeam) {
+    return `
+      <div class="queue-item">
+        <strong>vencedor da partida ${currentNumber} x ${escapeHtml(waitingTeam.name)}</strong>
+      </div>
+    `;
+  }
+
+  const loserReference = Math.max(1, currentNumber - 2);
+
+  return `
+    <div class="queue-item">
+      <strong>vencedor da partida ${currentNumber} x perdedor da partida ${loserReference}</strong>
     </div>
   `;
 }

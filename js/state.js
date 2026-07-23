@@ -9,6 +9,8 @@ function createEmptyMatchState() {
     currentMatchNumber: 1,
     currentMatch: null,
     waitingTeams: [],
+    loserQueue: [],
+    pendingTieMatch: null,
     results: [],
     wins: {},
     stats: {},

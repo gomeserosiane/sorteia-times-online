@@ -14,12 +14,6 @@ sortForm.addEventListener('submit', async (event) => {
     }
 
     const players = parsePlayers(playerList);
-    const minimumPlayers = teamCount * playersPerTeam;
-
-    if (players.length < minimumPlayers) {
-      throw new Error(`Voce informou ${players.length} jogador(es), mas esse formato precisa de ${minimumPlayers}.`);
-    }
-
     const teams = distributePlayers(players, teamCount, playersPerTeam);
 
     await playLoadingTransition();

@@ -28,7 +28,7 @@ function shuffle(array) {
   return arr;
 }
 
-// Le somente jogadores no formato numerado com hifen: 1-Nome, 2-Nome, 3-Nome...
+// Le somente jogadores no formato numerado: 1-Nome ou 1.Nome.
 function parsePlayers(rawText) {
   const allLines = rawText
     .normalize('NFC')
@@ -43,14 +43,14 @@ function parsePlayers(rawText) {
     .filter(Boolean);
 
   if (!players.length) {
-    throw new Error('Nenhum jogador valido foi encontrado. Use o formato 1-Nome, 2-Nome, 3-Nome...');
+    throw new Error('Nenhum jogador valido foi encontrado. Use o formato 1-Nome ou 1.Nome.');
   }
 
   return players;
 }
 
 function extractNumberedPlayer(line) {
-  const match = line.match(/^\s*\d+\s*-\s*(.+?)\s*$/u);
+  const match = line.match(/^\s*\d+\s*[-.]\s*(.+?)\s*$/u);
   if (!match || !match[1]) return '';
 
   return match[1].replace(/\s+/gu, ' ').trim();
@@ -60,7 +60,7 @@ function isPlayerListHeader(line) {
   return /^(lista|lista\s+de\s+jogadores|jogadores|nomes|players)\s*[:\-–—]*$/iu.test(line);
 }
 
-// Distribui os jogadores sorteados respeitando a quantidade de equipes e vagas por equipe.
+// Distribui os jogadores sorteados priorizando Time 1, Time 2, Time 3 e os demais.
 function distributePlayers(players, teamCount, playersPerTeam) {
   const shuffled = shuffle(players);
   const teams = Array.from({ length: teamCount }, () => []);

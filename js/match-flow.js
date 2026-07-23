@@ -21,6 +21,8 @@ function setupMatchFlow(teams, matchDurationSeconds = MATCH_DURATION_SECONDS) {
     rightTeam: teamModels[1]
   };
   matchState.waitingTeams = teamModels.slice(2);
+  matchState.loserQueue = [];
+  matchState.pendingTieMatch = null;
   renderMatchFlow();
 }
 
@@ -55,11 +57,7 @@ function finishCurrentMatch(winnerSide, score, wasTie = false) {
   });
 
   matchState.currentMatchNumber += 1;
-  matchState.currentMatch = {
-    number: matchState.currentMatchNumber,
-    leftTeam: getNextOpponent(number, loser),
-    rightTeam: winner
-  };
+  matchState.currentMatch = getNextMatch({ number, leftTeam, rightTeam, winner, loser, wasTie });
   matchState.decisionOverlayOpen = false;
   matchState.decisionMode = 'winner';
   matchState.allowTie = true;
@@ -92,6 +90,92 @@ function updateTeamStats({ leftTeam, rightTeam, winner, loser, winnerSide, score
 
   matchState.stats[winner.id].wins += 1;
   matchState.stats[loser.id].losses += 1;
+}
+
+function getNextMatch(result) {
+  if (matchState.allTeams.length === 4) {
+    return getNextFourTeamMatch(result);
+  }
+
+  return {
+    number: matchState.currentMatchNumber,
+    leftTeam: getNextOpponent(result.number, result.loser),
+    rightTeam: result.winner
+  };
+}
+
+function getNextFourTeamMatch({ leftTeam, rightTeam, winner, loser, wasTie }) {
+  if (wasTie) {
+    addUniqueTeamToQueue(loser);
+
+    const previousTieTeams = matchState.pendingTieMatch?.teams || [];
+    const nextPair = previousTieTeams.length === 2
+      ? previousTieTeams
+      : getTeamsWaitingOutsideMatch(leftTeam, rightTeam);
+
+    matchState.pendingTieMatch = {
+      winner,
+      teams: [leftTeam, rightTeam]
+    };
+    removeTeamsFromQueue(nextPair);
+
+    return createNextMatch(nextPair[0] || winner, nextPair[1] || getNextQueuedOpponent(winner));
+  }
+
+  addUniqueTeamToQueue(loser);
+
+  if (matchState.pendingTieMatch) {
+    const pendingWinner = matchState.pendingTieMatch.winner;
+    matchState.pendingTieMatch = null;
+    removeTeamsFromQueue([winner, pendingWinner]);
+    return createNextMatch(winner, pendingWinner);
+  }
+
+  if (matchState.waitingTeams.length) {
+    return createNextMatch(winner, matchState.waitingTeams.shift());
+  }
+
+  return createNextMatch(winner, getNextQueuedOpponent(winner));
+}
+
+function createNextMatch(leftTeam, rightTeam) {
+  return {
+    number: matchState.currentMatchNumber,
+    leftTeam,
+    rightTeam
+  };
+}
+
+function getTeamsWaitingOutsideMatch(leftTeam, rightTeam) {
+  const currentIds = new Set([leftTeam.id, rightTeam.id]);
+  const waitingPair = matchState.waitingTeams.filter(team => !currentIds.has(team.id));
+
+  if (waitingPair.length >= 2) {
+    matchState.waitingTeams = matchState.waitingTeams.filter(team => !waitingPair.slice(0, 2).includes(team));
+    return waitingPair.slice(0, 2);
+  }
+
+  return matchState.allTeams.filter(team => !currentIds.has(team.id)).slice(0, 2);
+}
+
+function addUniqueTeamToQueue(team) {
+  if (!team || matchState.loserQueue.some(queuedTeam => queuedTeam.id === team.id)) return;
+  matchState.loserQueue.push(team);
+}
+
+function removeTeamsFromQueue(teams) {
+  const idsToRemove = new Set(teams.filter(Boolean).map(team => team.id));
+  matchState.loserQueue = matchState.loserQueue.filter(team => !idsToRemove.has(team.id));
+}
+
+function getNextQueuedOpponent(currentWinner) {
+  const opponentIndex = matchState.loserQueue.findIndex(team => team.id !== currentWinner.id);
+
+  if (opponentIndex >= 0) {
+    return matchState.loserQueue.splice(opponentIndex, 1)[0];
+  }
+
+  return matchState.allTeams.find(team => team.id !== currentWinner.id) || currentWinner;
 }
 
 function getNextOpponent(finishedMatchNumber, loser) {

@@ -4,14 +4,16 @@ Aplicacao web estatica para sortear times de futebol, acompanhar partidas de 7 m
 
 ## Funcionalidades
 
-- Sorteio de 2 a 5 equipes
+- Sorteio de 2 a 4 equipes
 - Selecao de jogadores por equipe
 - Selecao do tempo da partida: 5, 7 ou 10 minutos
 - Tela inicial com imagem horizontal completa e formulario abaixo no desktop
 - Container da imagem inicial exibindo somente o titulo `Sorteador de Times`
 - Container da imagem ajustado proporcionalmente no responsivo com titulo menor
 - Titulo do container da imagem centralizado na parte inferior, respeitando o padding
-- Leitura de lista somente no formato `1-Nome`, `2-Nome`, `3-Nome`
+- Leitura de lista somente nos formatos `1-Nome` ou `1.Nome`
+- Sorteio permitido mesmo sem jogadores suficientes para completar todas as equipes
+- Distribuicao prioriza Time 1, Time 2, Time 3 e depois os demais times
 - Quando houver um titulo `Lista` ou `Jogadores`, o sistema considera somente as linhas abaixo dele
 - Suporte a nomes com acentos, letras diferentes, simbolos e emojis
 - Cronometro de 7 minutos iniciado manualmente
@@ -23,6 +25,8 @@ Aplicacao web estatica para sortear times de futebol, acompanhar partidas de 7 m
 - Menu `Quem venceu a partida?` com opcao selecionada em destaque e demais em cinza claro
 - Submenus expansivos para placar e par ou impar, com fechamento ao clicar novamente na opcao selecionada
 - Criacao continua de novas partidas, sem limite final
+- Formato especial para 4 times, com vencedor seguindo contra times aguardando e depois contra perdedores em fila
+- Empate com 4 times alterna a proxima partida para os times aguardando e reserva o vencedor do par ou impar
 - Previa da proxima partida:
   - 1 container: `Time 3 x vencedor da partida 1`
   - 2 container: `perdedor da partida 1 x vencedor da partida 2`
