@@ -22,7 +22,9 @@ function createEmptyMatchState() {
     allowTie: true,
     selectedDecision: null,
     pendingWinnerSide: null,
+    pendingScore: null,
     pendingTieScore: null,
+    pendingTieBreakerSide: null,
     pendingWasTie: false,
     showTieBreaker: false
   };

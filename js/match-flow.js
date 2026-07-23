@@ -63,7 +63,9 @@ function finishCurrentMatch(winnerSide, score, wasTie = false) {
   matchState.allowTie = true;
   matchState.selectedDecision = null;
   matchState.pendingWinnerSide = null;
+  matchState.pendingScore = null;
   matchState.pendingTieScore = null;
+  matchState.pendingTieBreakerSide = null;
   matchState.pendingWasTie = false;
   matchState.showTieBreaker = false;
   resetTimer();

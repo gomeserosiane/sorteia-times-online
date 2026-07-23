@@ -3,6 +3,7 @@ function renderDecisionOverlay() {
   if (!matchState.decisionOverlayOpen || !matchState.currentMatch) {
     matchDecisionOverlay.classList.add('d-none');
     matchDecisionOverlay.innerHTML = '';
+    document.body.classList.remove('modal-locked');
     return;
   }
 
@@ -23,6 +24,7 @@ function renderDecisionOverlay() {
   `;
 
   matchDecisionOverlay.classList.remove('d-none');
+  document.body.classList.add('modal-locked');
   bindOverlayActions();
 }
 
@@ -84,7 +86,7 @@ function renderScorePicker() {
 function getScoreButtonClass(score) {
   const classes = ['btn', 'decision-btn', 'light'];
 
-  if (matchState.pendingTieScore === score) {
+  if (matchState.pendingTieScore === score || matchState.pendingScore === score) {
     classes.push('selected');
   }
 
@@ -102,9 +104,21 @@ function renderTieBreaker() {
       <span class="panel-kicker">Desempate</span>
       <h3>Qual time ganhou o par ou impar?</h3>
       <div class="decision-actions">
-        <button type="button" class="btn decision-btn light" data-action="winner" data-team-side="left" data-winner-context="tie" ${disabled}>${escapeHtml(leftTeam.name)}</button>
-        <button type="button" class="btn decision-btn light" data-action="winner" data-team-side="right" data-winner-context="tie" ${disabled}>${escapeHtml(rightTeam.name)}</button>
+        <button type="button" class="${getTieBreakerButtonClass('left')}" data-action="winner" data-team-side="left" data-winner-context="tie" ${disabled}>${escapeHtml(leftTeam.name)}</button>
+        <button type="button" class="${getTieBreakerButtonClass('right')}" data-action="winner" data-team-side="right" data-winner-context="tie" ${disabled}>${escapeHtml(rightTeam.name)}</button>
       </div>
     </div>
   `;
+}
+
+function getTieBreakerButtonClass(side) {
+  const classes = ['btn', 'decision-btn', 'light'];
+
+  if (matchState.pendingTieBreakerSide === side) {
+    classes.push('selected');
+  } else if (matchState.pendingTieBreakerSide) {
+    classes.push('muted');
+  }
+
+  return classes.join(' ');
 }

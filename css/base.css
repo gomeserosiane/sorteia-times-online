@@ -26,6 +26,11 @@ body {
   overflow-x: hidden;
 }
 
+body.modal-locked {
+  overflow: hidden;
+  touch-action: none;
+}
+
 .field-grid,
 .bg-orb { display: none; }
 

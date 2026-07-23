@@ -116,6 +116,16 @@
   .modal-actions .decision-btn {
     flex-basis: 100%;
   }
+
+  .decision-overlay {
+    align-items: stretch;
+    padding: .75rem;
+  }
+
+  .decision-modal {
+    align-self: center;
+    max-height: calc(100dvh - 1.5rem);
+  }
 }
 
 @media (max-width: 575.98px) {

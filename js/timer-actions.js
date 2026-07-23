@@ -15,7 +15,9 @@ function startTimer() {
       matchState.decisionMode = 'winner';
       matchState.allowTie = true;
       matchState.selectedDecision = null;
+      matchState.pendingScore = null;
       matchState.pendingTieScore = null;
+      matchState.pendingTieBreakerSide = null;
       renderMatchFlow();
       return;
     }
@@ -46,7 +48,9 @@ function resetTimer() {
   matchState.allowTie = true;
   matchState.selectedDecision = null;
   matchState.pendingWinnerSide = null;
+  matchState.pendingScore = null;
   matchState.pendingTieScore = null;
+  matchState.pendingTieBreakerSide = null;
   matchState.pendingWasTie = false;
   matchState.showTieBreaker = false;
 }
@@ -58,7 +62,9 @@ function requestEndMatch() {
   matchState.allowTie = false;
   matchState.selectedDecision = null;
   matchState.pendingWinnerSide = null;
+  matchState.pendingScore = null;
   matchState.pendingTieScore = null;
+  matchState.pendingTieBreakerSide = null;
   matchState.pendingWasTie = false;
   matchState.showTieBreaker = false;
   renderMatchFlow();

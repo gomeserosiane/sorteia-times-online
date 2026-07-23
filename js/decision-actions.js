@@ -15,7 +15,9 @@ function bindOverlayActions() {
       matchState.allowTie = true;
       matchState.selectedDecision = null;
       matchState.pendingWinnerSide = null;
+      matchState.pendingScore = null;
       matchState.pendingTieScore = null;
+      matchState.pendingTieBreakerSide = null;
       matchState.pendingWasTie = false;
       renderMatchFlow();
     });
@@ -29,7 +31,9 @@ function bindOverlayActions() {
       matchState.showTieBreaker = !shouldCloseTieBreaker;
       matchState.decisionMode = shouldCloseTieBreaker ? 'winner' : 'score';
       matchState.pendingWinnerSide = null;
+      matchState.pendingScore = null;
       matchState.pendingTieScore = null;
+      matchState.pendingTieBreakerSide = null;
       matchState.pendingWasTie = false;
       renderDecisionOverlay();
     });
@@ -45,11 +49,14 @@ function bindOverlayActions() {
     button.addEventListener('click', () => {
       if (matchState.selectedDecision === 'tie') {
         matchState.pendingTieScore = button.dataset.score;
+        matchState.pendingTieBreakerSide = null;
         renderDecisionOverlay();
         return;
       }
 
-      finishCurrentMatch(matchState.pendingWinnerSide, button.dataset.score);
+      matchState.pendingScore = button.dataset.score;
+      renderDecisionOverlay();
+      setTimeout(() => finishCurrentMatch(matchState.pendingWinnerSide, button.dataset.score), 180);
     });
   });
 }
@@ -60,7 +67,9 @@ function selectWinner(winnerSide, context = 'main') {
 
   if (isTieBreakerSelection) {
     if (!matchState.pendingTieScore) return;
-    finishCurrentMatch(winnerSide, matchState.pendingTieScore, true);
+    matchState.pendingTieBreakerSide = winnerSide;
+    renderDecisionOverlay();
+    setTimeout(() => finishCurrentMatch(winnerSide, matchState.pendingTieScore, true), 180);
     return;
   }
 
@@ -69,7 +78,9 @@ function selectWinner(winnerSide, context = 'main') {
   if (shouldCloseScorePicker) {
     matchState.selectedDecision = null;
     matchState.pendingWinnerSide = null;
+    matchState.pendingScore = null;
     matchState.pendingTieScore = null;
+    matchState.pendingTieBreakerSide = null;
     matchState.pendingWasTie = false;
     matchState.decisionMode = 'winner';
     renderDecisionOverlay();
@@ -78,7 +89,9 @@ function selectWinner(winnerSide, context = 'main') {
 
   matchState.selectedDecision = selectedOption;
   matchState.pendingWinnerSide = winnerSide;
+  matchState.pendingScore = null;
   matchState.pendingTieScore = null;
+  matchState.pendingTieBreakerSide = null;
   matchState.pendingWasTie = isTieBreakerSelection;
   matchState.decisionMode = 'score';
   matchState.showTieBreaker = false;
