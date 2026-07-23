@@ -57,7 +57,7 @@ function extractNumberedPlayer(line) {
 }
 
 function isPlayerListHeader(line) {
-  return /^(lista|lista\s+de\s+jogadores|jogadores|nomes|players)\s*[:\-–—]*$/iu.test(line);
+  return /^(lista|lista\s+de\s+jogadores|jogadores|nomes|players)\s*[:\-\u2013\u2014]*$/iu.test(line);
 }
 
 // Distribui os jogadores sorteados priorizando Time 1, Time 2, Time 3 e os demais.
@@ -77,11 +77,55 @@ function distributePlayers(players, teamCount, playersPerTeam) {
 }
 
 function buildTeamModels(teams) {
+  const teamColors = shuffle(TEAM_COLOR_PALETTE);
+
   return teams.map((players, index) => ({
     id: `team-${index + 1}`,
     name: `Time ${index + 1}`,
-    players
+    players,
+    color: teamColors[index].color,
+    colorName: teamColors[index].name,
+    textColor: teamColors[index].textColor,
+    softColor: teamColors[index].softColor,
+    borderColor: teamColors[index].borderColor
   }));
+}
+
+const TEAM_COLOR_PALETTE = [
+  {
+    name: 'Preto claro',
+    color: '#374151',
+    textColor: '#ffffff',
+    softColor: '#e5e7eb',
+    borderColor: '#111827'
+  },
+  {
+    name: 'Laranja',
+    color: '#f97316',
+    textColor: '#ffffff',
+    softColor: '#ffedd5',
+    borderColor: '#c2410c'
+  },
+  {
+    name: 'Verde',
+    color: '#22c55e',
+    textColor: '#000000',
+    softColor: '#dcfce7',
+    borderColor: '#15803d'
+  },
+  {
+    name: 'Amarelo',
+    color: '#facc15',
+    textColor: '#422006',
+    softColor: '#fef9c3',
+    borderColor: '#ca8a04'
+  }
+];
+
+function getTeamColorStyle(team) {
+  if (!team?.color) return '';
+
+  return `style="--team-color: ${team.color}; --team-text: ${team.textColor}; --team-soft: ${team.softColor}; --team-border: ${team.borderColor};"`;
 }
 
 function formatTimer(totalSeconds) {

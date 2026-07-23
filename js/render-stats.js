@@ -35,7 +35,7 @@ function renderStatsRow(team, stats, position) {
   const notes = renderStatsNotes(stats);
 
   return `
-    <tr>
+    <tr class="stats-team-row" ${getTeamColorStyle(team)}>
       <td>
         <span class="team-rank">${position}&deg;</span>
         ${escapeHtml(team.name)}

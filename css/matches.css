@@ -48,9 +48,15 @@
   padding: 1.25rem;
 }
 
+.team-colored-container {
+  border-color: var(--team-border);
+  background: var(--team-color);
+  color: var(--team-text);
+}
+
 .team-content h3 {
   margin: .15rem 0 .95rem;
-  color: var(--text);
+  color: inherit;
   font-size: 1.2rem;
   font-weight: 850;
 }
@@ -77,6 +83,12 @@
   border: 1px solid #dbeafe;
 }
 
+.team-colored-container .player-shirt-icon {
+  color: var(--team-text);
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.4);
+}
+
 .match-player-list,
 .compact-player-list {
   display: grid;
@@ -100,6 +112,13 @@
   font-weight: 650;
 }
 
+.team-colored-container .match-player-list li,
+.team-colored-container .compact-player-list li {
+  color: var(--team-text);
+  border-color: rgba(255,255,255,.32);
+  background: rgba(255,255,255,.16);
+}
+
 .match-team-left .match-player-list li {
   flex-direction: row-reverse;
 }
@@ -111,7 +130,7 @@
 .match-player-list li strong,
 .compact-player-list li strong {
   min-width: 0;
-  color: var(--text);
+  color: inherit;
   font-weight: 750;
   overflow-wrap: anywhere;
 }
@@ -134,15 +153,26 @@
   display: inline-flex;
   align-items: center;
   gap: .35rem;
+  padding: .28rem .58rem;
+  border: 1px solid var(--team-border);
+  border-radius: 999px;
+  color: var(--team-text);
+  background: var(--team-color);
 }
 
-.score-team.winner,
+.score-team.winner {
+  color: var(--team-text);
+}
+
 .score-team.winner strong {
   color: #39ff14;
   text-shadow: 0 0 10px rgba(57,255,20,.75);
 }
 
-.score-team.loser,
+.score-team.loser {
+  color: var(--team-text);
+}
+
 .score-team.loser strong {
   color: #ff1744;
   text-shadow: 0 0 10px rgba(255,23,68,.62);

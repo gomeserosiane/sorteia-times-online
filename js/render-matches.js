@@ -55,11 +55,11 @@ function renderScoreResult(result) {
 
   return `
     <div class="scoreline">
-      <span class="${leftWon ? 'score-team winner' : 'score-team loser'}">
+      <span class="${leftWon ? 'score-team winner' : 'score-team loser'}" ${getTeamColorStyle(result.leftTeam)}>
         ${escapeHtml(result.leftTeam.name)} <strong>(${leftGoals})</strong>
       </span>
       <span class="score-separator">x</span>
-      <span class="${leftWon ? 'score-team loser' : 'score-team winner'}">
+      <span class="${leftWon ? 'score-team loser' : 'score-team winner'}" ${getTeamColorStyle(result.rightTeam)}>
         <strong>(${rightGoals})</strong> ${escapeHtml(result.rightTeam.name)}
       </span>
     </div>
@@ -100,7 +100,7 @@ function renderCurrentMatch() {
 
 function renderTeamColumn(team, side) {
   return `
-    <article class="match-team match-team-${side}">
+    <article class="match-team match-team-${side} team-colored-container" ${getTeamColorStyle(team)}>
       <div class="team-content ${side === 'left' ? 'text-end' : ''}">
         <h3>${escapeHtml(team.name)}</h3>
         <ul class="match-player-list">

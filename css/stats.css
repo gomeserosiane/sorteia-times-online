@@ -60,6 +60,19 @@
   font-weight: 750;
 }
 
+.stats-team-row td {
+  border-bottom-color: var(--team-border);
+  border-right-color: rgba(255,255,255,.36);
+  color: var(--team-text);
+  background: var(--team-color);
+}
+
+.stats-team-row .team-rank {
+  border-color: rgba(255,255,255,.55);
+  color: var(--team-text);
+  background: rgba(255,255,255,.18);
+}
+
 .team-rank {
   display: inline-flex;
   align-items: center;
@@ -83,11 +96,11 @@
 }
 
 .win-note {
-  color: #15803d;
+  color: inherit;
 }
 
 .loss-note {
-  color: #dc2626;
+  color: inherit;
 }
 
 .stats-download-btn {

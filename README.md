@@ -14,6 +14,9 @@ Aplicacao web estatica para sortear times de futebol, acompanhar partidas de 7 m
 - Leitura de lista somente nos formatos `1-Nome` ou `1.Nome`
 - Sorteio permitido mesmo sem jogadores suficientes para completar todas as equipes
 - Distribuicao prioriza Time 1, Time 2, Time 3 e depois os demais times
+- Cores dos times sorteadas automaticamente entre preto claro, laranja, verde e amarelo
+- Time verde usa texto preto, e time laranja usa texto branco
+- Containers e linhas da tabela de estatisticas seguem a cor sorteada de cada time
 - Quando houver um titulo `Lista` ou `Jogadores`, o sistema considera somente as linhas abaixo dele
 - Suporte a nomes com acentos, letras diferentes, simbolos e emojis
 - Cronometro de 7 minutos iniciado manualmente

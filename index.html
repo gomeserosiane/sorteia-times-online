@@ -42,8 +42,10 @@
                 <section class="form-panel">
                   <div class="section-heading">
                     <span class="hero-chip">Preparar sorteio</span>
-                    <h2>Organize os jogadores</h2>
-                    <p>Cole a lista completa, escolha o formato das equipes e gere a ordem das partidas.</p>
+                    <h2>Organize a partida</h2>
+                    <p>Selecione a quantidade de equipes, jogadores por equipe e tempo da partida, após isso, 
+                      cole a lista final em sua área.
+                    </p>
                   </div>
 
                   <form id="sortForm" novalidate>
@@ -74,16 +76,16 @@
                         <label for="matchDuration" class="form-label">Tempo da partida</label>
                         <select id="matchDuration" class="form-select custom-input" required>
                           <option value="" selected disabled>Selecione</option>
-                          <option value="300">5 minutos</option>
-                          <option value="420">7 minutos</option>
-                          <option value="600">10 minutos</option>
+                          <option value="300">5 min</option>
+                          <option value="420">7 min</option>
+                          <option value="600">10 min</option>
                         </select>
                       </div>
                     </div>
 
                     <div class="mt-4">
                       <label for="playerList" class="form-label d-flex align-items-center gap-2 flex-wrap">
-                        <span>Lista de jogadores</span>
+                        <span>Lista de jogadores (copie a lista do WhatsApp e cole aqui)</span>
                         <span class="arrow-down">&darr;</span>
                       </label>
                       <textarea
@@ -93,7 +95,9 @@
                         placeholder="Exemplo:&#10;Lista&#10;1-Jo&atilde;o &#9917;&#10;2-Ana Clara &#128293;&#10;3-M4rcos Jr.&#10;4-Luiz @10"
                         required
                       ></textarea>
-                      <div class="helper-text mt-2">Use somente o formato <strong>1-Nome</strong> ou <strong>1.Nome</strong>, e assim por diante.</div>
+                      <div class="helper-text mt-2">
+                        Cole a lista completa, sem a necessidade de editá-la. o sistema reconhece o nome 
+                        dos jogadores por <strong>1-Nome</strong> ou <strong>1.Nome</strong>, e assim por diante.</div>
                     </div>
 
                     <div id="sortError" class="alert alert-danger mt-4 d-none" role="alert"></div>

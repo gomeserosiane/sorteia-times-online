@@ -15,7 +15,7 @@ function renderSortedTeamsFaq() {
       ${matchState.sortedTeamsOpen ? `
         <div class="sorted-teams-grid">
           ${matchState.allTeams.map(team => `
-            <article class="sorted-team-card">
+            <article class="sorted-team-card team-colored-container" ${getTeamColorStyle(team)}>
               <h4>${escapeHtml(team.name)}</h4>
               <ul class="compact-player-list">
                 ${renderPlayerList(team.players, 'right')}

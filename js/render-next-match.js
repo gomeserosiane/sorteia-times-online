@@ -19,7 +19,7 @@ function renderNextMatchPreview() {
   if (currentNumber === 1 && thirdTeam) {
     return `
       <div class="queue-item">
-        <strong>${escapeHtml(thirdTeam.name)} x (vencedor da partida 1)</strong>
+        <strong>${renderQueueTeam(thirdTeam)} x (vencedor da partida 1)</strong>
       </div>
     `;
   }
@@ -29,7 +29,7 @@ function renderNextMatchPreview() {
   if (previousLoser) {
     return `
       <div class="queue-item">
-        <strong>${escapeHtml(previousLoser.name)} x vencedor da partida ${currentNumber}</strong>
+        <strong>${renderQueueTeam(previousLoser)} x vencedor da partida ${currentNumber}</strong>
       </div>
     `;
   }
@@ -48,7 +48,7 @@ function renderFourTeamNextMatchPreview() {
   if (matchState.pendingTieMatch) {
     return `
       <div class="queue-item">
-        <strong>vencedor da partida ${currentNumber} x ${escapeHtml(matchState.pendingTieMatch.winner.name)}</strong>
+        <strong>vencedor da partida ${currentNumber} x ${renderQueueTeam(matchState.pendingTieMatch.winner)}</strong>
       </div>
     `;
   }
@@ -56,7 +56,7 @@ function renderFourTeamNextMatchPreview() {
   if (waitingTeam) {
     return `
       <div class="queue-item">
-        <strong>vencedor da partida ${currentNumber} x ${escapeHtml(waitingTeam.name)}</strong>
+        <strong>vencedor da partida ${currentNumber} x ${renderQueueTeam(waitingTeam)}</strong>
       </div>
     `;
   }
@@ -68,4 +68,8 @@ function renderFourTeamNextMatchPreview() {
       <strong>vencedor da partida ${currentNumber} x perdedor da partida ${loserReference}</strong>
     </div>
   `;
+}
+
+function renderQueueTeam(team) {
+  return `<span class="queue-team-badge" ${getTeamColorStyle(team)}>${escapeHtml(team.name)}</span>`;
 }

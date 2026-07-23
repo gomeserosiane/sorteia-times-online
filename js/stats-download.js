@@ -2,17 +2,20 @@
 function downloadStatsTableImage() {
   const rankedTeams = getRankedTeams();
   const headers = ['Pos', 'Time', 'PTS', 'V', 'E', 'D', 'GM', 'GS', 'Obs'];
-  const rows = rankedTeams.map(({ team, stats }, index) => [
-    `${index + 1}\u00ba`,
-    team.name,
-    String(getTeamPoints(stats)),
-    String(stats.wins),
-    String(stats.draws),
-    String(stats.losses),
-    String(stats.goalsFor),
-    String(stats.goalsAgainst),
-    getStatsNotesText(stats)
-  ]);
+  const rows = rankedTeams.map(({ team, stats }, index) => ({
+    team,
+    values: [
+      `${index + 1}\u00ba`,
+      team.name,
+      String(getTeamPoints(stats)),
+      String(stats.wins),
+      String(stats.draws),
+      String(stats.losses),
+      String(stats.goalsFor),
+      String(stats.goalsAgainst),
+      getStatsNotesText(stats)
+    ]
+  }));
   const canvas = buildStatsCanvas(headers, rows);
 
   canvas.toBlob(blob => {
@@ -87,11 +90,12 @@ function drawStatsCanvasRows(context, rows, columnWidths, padding, top, rowHeigh
     let x = padding;
     const y = top + (rowIndex * rowHeight);
 
-    context.fillStyle = rowIndex % 2 === 0 ? '#ffffff' : '#f8fafc';
+    context.fillStyle = row.team.color;
     context.fillRect(padding, y, columnWidths.reduce((sum, width) => sum + width, 0), rowHeight);
-    row.forEach((value, columnIndex) => {
+    row.values.forEach((value, columnIndex) => {
       drawStatsCell(context, value, x, y, columnWidths[columnIndex], rowHeight, {
-        color: getStatsCellColor(columnIndex, value),
+        borderColor: row.team.borderColor,
+        color: row.team.textColor,
         font: columnIndex === 0 || columnIndex === 2 ? '800 15px Inter, Arial, sans-serif' : '650 14px Inter, Arial, sans-serif'
       });
       x += columnWidths[columnIndex];
@@ -100,7 +104,7 @@ function drawStatsCanvasRows(context, rows, columnWidths, padding, top, rowHeigh
 }
 
 function drawStatsCell(context, value, x, y, width, height, options) {
-  context.strokeStyle = '#bbf7d0';
+  context.strokeStyle = options.borderColor || '#bbf7d0';
   context.lineWidth = 1;
   context.strokeRect(x, y, width, height);
   context.fillStyle = options.color;
@@ -128,12 +132,4 @@ function getStatsNotesText(stats) {
   if (stats.tieBreakLosses) notes.push(`${stats.tieBreakLosses} derrota(s) no par ou impar`);
 
   return notes.join(' | ') || '-';
-}
-
-function getStatsCellColor(columnIndex, value) {
-  if (columnIndex === 8 && String(value).includes('derrota')) return '#dc2626';
-  if (columnIndex === 8 && String(value).includes('vitoria')) return '#15803d';
-  if (columnIndex === 0 || columnIndex === 2) return '#128a00';
-
-  return '#0f172a';
 }

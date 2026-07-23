@@ -45,9 +45,15 @@
   background: var(--surface-2);
 }
 
+.sorted-team-card.team-colored-container {
+  border-color: var(--team-border);
+  background: var(--team-color);
+  color: var(--team-text);
+}
+
 .sorted-team-card h4 {
   margin: 0 0 .75rem;
-  color: var(--text);
+  color: inherit;
   font-size: 1rem;
   font-weight: 850;
 }
